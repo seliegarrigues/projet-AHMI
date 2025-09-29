@@ -3,10 +3,13 @@ import axios from 'axios'
 import router from '@/router'
 
 const apiBaseURL =
-  import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api'
+  import.meta.env.VITE_API_URL ||
+  import.meta.env.VITE_API_BASE_URL ||
+  import.meta.env.VITE_BACKEND_URL ||
+  'http://localhost:5000/api'
 const api = axios.create({
   baseURL: apiBaseURL,
-  withCredentials: true, // si tu utilises cookies httpOnly
+  withCredentials: true, //  cookies httpOnly
   timeout: 10000,
 })
 

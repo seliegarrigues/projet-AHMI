@@ -6,10 +6,11 @@ export default [
     meta: { requiresAuth: true },
   },
   {
-    path: '/account/proposer-evenement',
+    path: '/account/proposer-evenement/:id?',
     name: 'proposer-evenement',
     component: () => import('@/views/CreateOrEditEvent.vue'),
-    meta: { requiresAuth: true },
+    props: true,
+    meta: { requiresAuth: true, roles: ['partenaire', 'admin'] },
   },
   {
     path: '/evenement/:id/reserver',

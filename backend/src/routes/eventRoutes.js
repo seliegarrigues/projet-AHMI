@@ -56,7 +56,7 @@ router.get("/mine", middlewareAuth, (req, res) =>
 );
 router.get(
   "/:id",
-
+  middlewareAuth,
   validateObjectId,
   eventController.getEventById
 );

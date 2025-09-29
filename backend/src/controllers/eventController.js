@@ -7,6 +7,15 @@ class EventController {
   constructor() {
     this.eventService = EventService;
   }
+  // Helper: détecte correctement un admin, qu’il soit dans `role` ou dans `roles[]`
+  isAdminUser = (req) => {
+    const r = req?.utilisateur?.role;
+    const rs = req?.utilisateur?.roles;
+    const hasRole = typeof r === "string" && r.toLowerCase() === "admin";
+    const hasInArray =
+      Array.isArray(rs) && rs.some((x) => String(x).toLowerCase() === "admin");
+    return hasRole || hasInArray;
+  };
 
   // Créer un événement (partner ou admin)
   createEvent = async (req, res) => {
@@ -34,8 +43,7 @@ class EventController {
 
       console.info("Utilisateur courant dans getAllEvents :", req.utilisateur);
 
-      const filter =
-        req.utilisateur?.role === "admin" ? {} : { statut: "approuve" };
+      const filter = this.isAdminUser(req) ? {} : { statut: "approuve" };
       console.info(" Filtre utilisé pour getAllEvents :", filter);
 
       const events = await this.eventService.getAllEvents(filter);
@@ -54,7 +62,7 @@ class EventController {
       if (!event)
         return res.status(404).json({ message: "Évènement introuvable" });
       const user = req.utilisateur; // undefined si pas d'auth
-      const isAdmin = user?.role === "admin";
+      const isAdmin = this.isAdminUser(req);
       const creatorId =
         event?.createur?._id?.toString?.() ?? event?.createur?.toString?.();
       const isCreator = user && creatorId === user.id;
@@ -86,7 +94,7 @@ class EventController {
       const creatorId =
         existing?.createur?._id?.toString?.() ??
         existing?.createur?.toString?.();
-      const isAdmin = req.utilisateur?.role === "admin";
+      const isAdmin = this.isAdminUser(req);
       if (creatorId !== req.utilisateur.id && !isAdmin) {
         return res.status(403).json({ message: "Accès refusé" });
       }
@@ -154,7 +162,7 @@ class EventController {
       if (!event)
         return res.status(404).json({ message: "Évènement introuvable" });
       const user = req.utilisateur; // peut être undefined si route publique
-      const isAdmin = user?.role === "admin";
+      const isAdmin = this.isAdminUser(req);
       const creatorId =
         event?.createur?._id?.toString?.() ?? event?.createur?.toString?.();
       const isCreator = user && creatorId === user.id;

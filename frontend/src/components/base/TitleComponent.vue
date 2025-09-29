@@ -91,7 +91,7 @@
 import { ref, onMounted } from 'vue'
 import { SortDescendingIcon, FilterIcon } from '@heroicons/vue/outline'
 import BaseButton from '@/components/base/BaseButton.vue'
-import api from '@/services/api'
+import { getCategories } from '@/services/eventService'
 import { CheckIcon } from '@heroicons/vue/solid'
 
 const props = defineProps({
@@ -105,7 +105,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['change-sort', 'filter'])
+const emit = defineEmits(['change-sort', 'filter', 'filter-category'])
 
 const isDropdownOpen = ref(false)
 const dropdownRef = ref(null)
@@ -117,8 +117,16 @@ function selectSort(type) {
 const categories = ref([])
 
 onMounted(async () => {
-  const res = await api.get('/categories/public') // ou /api/categories/public
-  categories.value = res.data
+  try {
+    // Service typé qui gère la baseURL et les cookies (JWT)
+    const res = await getCategories()
+    // back peut renvoyer soit {data: [...]}, soit [...]
+    categories.value = Array.isArray(res?.data?.data) ? res.data.data : res?.data ?? []
+  } catch (e) {
+    // Ne pas faire planter l’UI si le catalogue des catégories est indispo
+    console.warn('[TitleComponent] Impossible de charger les catégories :', e?.message || e)
+    categories.value = []
+  }
 })
 
 // Fermeture au clic extérieur (manuellement ici)

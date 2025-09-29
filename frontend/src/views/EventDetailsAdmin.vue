@@ -219,13 +219,17 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import axios from 'axios'
 import { format } from 'date-fns'
 import fr from 'date-fns/locale/fr'
 import { useToast } from 'vue-toastification'
 import BaseButton from '@/components/base/BaseButton.vue'
 import MainLayout from '@/layout/MainLayout.vue'
-import { updateEventStatus, getCategories, updateEvent } from '@/services/eventService'
+import {
+  getEventById,
+  updateEventStatus,
+  getCategories,
+  updateEvent,
+} from '@/services/eventService'
 import { formatDateForInput, toISOStringFromInput } from '@/utils/date'
 import { useEvenementsStore } from '@/stores/evenements'
 
@@ -304,7 +308,7 @@ const sauvegarderModifications = async () => {
       participationFinanciere: Number(evenement.value.participationFinanciere),
       lienSiteInternet: evenement.value.lienSiteInternet?.trim(),
       lienInstagram: evenement.value.lienInstagram?.trim(),
-      categories: evenement.value.categories.map((cat) =>
+      categories: (evenement.value.categories || []).map((cat) =>
         typeof cat === 'string' ? cat : cat._id
       ),
       dateDebut: toISOStringFromInput(dateDebut.value),
@@ -353,15 +357,26 @@ onMounted(async () => {
   try {
     const catRes = await getCategories()
     allCategories.value = catRes.data.data || catRes.data
-    const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/events/${route.params.id}`)
-    evenement.value = res.data.data || res.data
+    const id = route.params?.id
+    if (!id) {
+      error.value = 'ID manquant'
+      return
+    }
+    const res = await getEventById(id, { __noRedirect403: true })
+    const ev = res.data?.data || res.data
+
+    // ⚠️ v-model sur <select multiple> → tableau d’IDs requis
+    const cats = Array.isArray(ev?.categories)
+      ? ev.categories.map((c) => (typeof c === 'string' ? c : c?._id)).filter(Boolean)
+      : []
+    evenement.value = { ...ev, categories: cats }
 
     adresseRue.value = evenement.value?.lieu?.rue || ''
     codePostal.value = evenement.value?.lieu?.codePostal || ''
     commune.value = evenement.value?.lieu?.commune || ''
 
-    dateDebut.value = formatDateForInput(evenement.value?.dateDebut)
-    dateFin.value = formatDateForInput(evenement.value?.dateFin)
+    dateDebut.value = formatDateForInput(ev?.dateDebut) || ''
+    dateFin.value = formatDateForInput(ev?.dateFin) || ''
   } catch (e) {
     error.value = "Impossible de charger l'événement."
     console.error(e)

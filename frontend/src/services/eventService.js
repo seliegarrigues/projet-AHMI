@@ -13,11 +13,11 @@ export const updateEvent = (id, data, config = {}) => api.put(`/events/${id}`, d
 export const getPlacesRestantes = (id, config = {}) =>
   api.get(`/events/${id}/places-restantes`, config)
 
-export const getEventsByStatus = (status, config = {}) =>
-  api.get(`/events/statut/${status}`, config)
+export const getEventsByStatus = (statut, config = {}) =>
+  api.get(`/events/statut/${statut}`, config)
 
 export const updateEventStatus = (id, status, config = {}) =>
-  api.patch(`/events/${id}`, { statut: status }, config)
+  api.patch(`/events/${id}/statut`, { statut: status }, config)
 
 export const deleteEvent = (id, config = {}) => api.delete(`/events/${id}`, config)
 

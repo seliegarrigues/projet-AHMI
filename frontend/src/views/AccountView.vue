@@ -16,8 +16,20 @@ import { useEvenementsStore } from '@/stores/evenements'
 
 const { utilisateur } = useAuth()
 const utilisateurId = computed(() => utilisateur.value?.id || utilisateur.value?._id || null)
-
-console.info('Utilisateur connecté :', utilisateur.value)
+const idsEgales = (a, b) => a != null && b != null && String(a) === String(b)
+const estCreateur = (e) => {
+  const uid = utilisateurId.value
+  if (!uid || !e) return false
+  return (
+    idsEgales(e.createur?._id, uid) ||
+    idsEgales(e.createur, uid) ||
+    idsEgales(e.organisateur?._id, uid) ||
+    idsEgales(e.organisateur?.id, uid) || // si jamais c’est `id` sans underscore
+    idsEgales(e.createdBy, uid) ||
+    idsEgales(e.userId, uid) ||
+    idsEgales(e.utilisateur?._id, uid)
+  )
+}
 
 const toast = useToast()
 
@@ -84,6 +96,22 @@ onMounted(async () => {
     evenements.value = Array.from(byId.values()).filter(
       (e) => !e.dateFin || new Date(e.dateFin) > new Date()
     )
+
+    // 🔎 DEBUG : payload “mes événements” brut
+
+    // 🔎 DEBUG : évènements fusionnés (aperçu)
+    console.table(
+      evenements.value.map((e) => ({
+        _id: e._id,
+        titre: e.titre,
+        statut: e.statut,
+        createur_str: typeof e.createur === 'string' ? e.createur : null,
+        createur_obj_id: e.createur && e.createur._id ? e.createur._id : null,
+        organisateur_id: (e.organisateur && (e.organisateur._id || e.organisateur.id)) || null,
+      }))
+    )
+
+    // 🔎 DEBUG : que renvoie estCreateur() sur les 5 premiers ?
 
     // Réservations
     const res2 = await getMyBookings({ signal })
@@ -380,13 +408,7 @@ const validerPlaces = async (r) => {
                   >Gérer</BaseButton
                 >
               </template>
-              <template
-                v-else-if="
-                  utilisateurId &&
-                  String(event.createur?._id ?? event.createur ?? event.organisateur?.id) ===
-                    String(utilisateurId)
-                "
-              >
+              <template v-else-if="estCreateur(event)">
                 <!-- version robuste : <template v-else-if="estCreateur(event)">
   -->
                 <BaseButton
