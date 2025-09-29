@@ -50,6 +50,7 @@ const helmetOptions = isProd
             "'self'",
             process.env.FRONTEND_URL || "http://localhost:5173",
             "https://nominatim.openstreetmap.org",
+            "https://*.vercel.app",
           ],
           "font-src": ["'self'", "https:", "data:"],
           "base-uri": ["'self'"],
@@ -70,22 +71,37 @@ app.set("trust proxy", 1);
 
 app.use(securityHeaders);
 
-// CORS —  :
-// 1) CORS strict via ton middleware
-// app.use(corsStrict);
+// CORS — whitelist multi-origines (localhost + prod + previews Vercel)
+const rawOrigins =
+  process.env.FRONTEND_URLS ||
+  process.env.FRONTEND_URL ||
+  "http://localhost:5173";
+const WHITELIST = rawOrigins
+  .split(",")
+  .map((s) => s.trim())
+  .filter(Boolean);
 
-// 2) CORS : strict en prod, simple en dev
-if (process.env.NODE_ENV === "production") {
-  app.use(corsStrict);
-} else {
-  app.use(
-    cors({
-      origin: process.env.FRONTEND_URL || "http://localhost:5173",
-      credentials: true,
-    })
-  );
-}
-
+app.use(
+  cors({
+    origin: (origin, cb) => {
+      // Requêtes sans Origin (tests, cURL, serveurs) : autoriser
+      if (!origin) return cb(null, true);
+      try {
+        const { hostname } = new URL(origin);
+        // Autoriser toutes les previews Vercel : https://*.vercel.app
+        const isVercel =
+          hostname === "vercel.app" || hostname.endsWith(".vercel.app");
+        if (isVercel || WHITELIST.includes(origin)) {
+          return cb(null, true);
+        }
+        return cb(new Error(`Origin non autorisé : ${origin}`), false);
+      } catch {
+        return cb(new Error(`Origin invalide : ${origin}`), false);
+      }
+    },
+    credentials: true,
+  })
+);
 // Rate limit — un seul global
 app.use(generalLimiter);
 
