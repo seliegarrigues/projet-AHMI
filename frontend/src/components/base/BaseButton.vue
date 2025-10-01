@@ -16,7 +16,6 @@
     <slot />
   </button>
 </template>
-s
 
 <script setup>
 import { computed } from 'vue'

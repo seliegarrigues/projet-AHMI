@@ -333,8 +333,8 @@ const validerPlaces = async (r) => {
     <div class="max-w-5xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
       <h1 class="text-h2 font-bold text-ahmi-text-brand mb-6">Mon compte</h1>
 
-      
-      <!--Actions Visible uniquement pour admin/partenaire -->
+      <!-- Actions -->
+      <div class="flex flex-wrap justify-center gap-4 mb-6">
         <BaseButton
           v-if="peutProposer"
           variant="primary"
@@ -414,30 +414,29 @@ const validerPlaces = async (r) => {
                 </span>
               </p>
 
-              <template v-if="isAdmin">
-                <BaseButton
-                  size="sm"
-                  variant="secondary"
-                  @click="$router.push(`/evenement/${event._id}/admin`)"
-                  >Gérer</BaseButton
-                >
-              </template>
-              <template v-else-if="estCreateur(event)">
-                <!-- version robuste : <template v-else-if="estCreateur(event)">
-  -->
+              <!-- Admin : bouton direct -->
+              <BaseButton
+                v-if="isAdmin"
+                size="sm"
+                variant="secondary"
+                @click="$router.push(`/evenement/${event._id}/admin`)"
+              >
+                Gérer
+              </BaseButton>
+
+              <!-- Créateur : groupe de boutons -->
+              <div v-else-if="estCreateur(event)" class="flex items-center gap-2">
                 <BaseButton
                   size="sm"
                   variant="secondary"
                   @click="$router.push(`/account/proposer-evenement/${event._id}`)"
-                  >Modifier</BaseButton
                 >
-                <BaseButton size="sm" variant="ghost" @click="demanderConfirmation(event._id)"
-                  >Supprimer</BaseButton
-                >
-              </template>
-              <template v-if="isAdmin">
-                <!-- Gérer les catégories -->
-              </template>
+                  Modifier
+                </BaseButton>
+                <BaseButton size="sm" variant="ghost" @click="demanderConfirmation(event._id)">
+                  Supprimer
+                </BaseButton>
+              </div>
             </div>
           </article>
         </ul>
