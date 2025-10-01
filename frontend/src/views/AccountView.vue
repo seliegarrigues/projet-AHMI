@@ -1,7 +1,7 @@
 <!-- src/views/AccountView.vue -->
 <script setup>
 import { ref, computed, onMounted, reactive, watch, onBeforeUnmount } from 'vue'
-import { onBeforeRouteLeave } from 'vue-router'
+import { onBeforeRouteLeave, RouterLink } from 'vue-router'
 import { format } from 'date-fns'
 import fr from 'date-fns/locale/fr'
 import { useToast } from 'vue-toastification'
@@ -67,7 +67,7 @@ let controller
 
 onMounted(async () => {
   // 1) Garde-fou
-  const hasToken = !!localStorage.getItem('token')
+  const hasToken = !!localStorage.getItem('token') || localStorage.getItem('auth_token')
   if (!hasToken) {
     toast.error('Vous devez être connecté pour accéder à cette page.')
     return
@@ -463,12 +463,12 @@ const validerPlaces = async (r) => {
             <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
               <!-- Bloc infos -->
               <div class="flex-1 min-w-0">
-                <router-link
+                <RouterLink
                   :to="`/evenement/${r.evenement?._id}`"
                   class="text-ahmi-primary font-semibold hover:underline"
                 >
                   {{ r.evenement?.titre }}
-                </router-link>
+                </RouterLink>
 
                 <p class="text-sm text-gray-600">{{ r.evenement?.lieu?.adresse }}</p>
                 <p class="text-sm text-gray-500">{{ formatDate(r.evenement?.dateDebut) }}</p>
