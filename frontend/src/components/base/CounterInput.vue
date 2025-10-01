@@ -1,3 +1,4 @@
+<!-- src/components/base/CounterInput.vue -->
 <template>
   <div class="flex items-center gap-3">
     <BaseButton

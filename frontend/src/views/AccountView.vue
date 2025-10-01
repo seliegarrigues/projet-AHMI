@@ -40,7 +40,20 @@ const activeTab = ref('tous')
 const modalVisible = ref(false)
 const eventToDelete = ref(null)
 
-const isAdmin = computed(() => utilisateur.value?.role === 'admin')
+//  Rôle courant robuste (store OU localStorage)
+const roleActif = computed(() => {
+  const fromStore = (utilisateur.value?.role || '').toLowerCase()
+  if (fromStore) return fromStore
+  try {
+    const u = JSON.parse(localStorage.getItem('auth_user') || 'null')
+    return (u?.role || '').toLowerCase()
+  } catch {
+    return ''
+  }
+})
+const isAdmin = computed(() => roleActif.value === 'admin')
+const isPartenaire = computed(() => roleActif.value === 'partenaire')
+const peutProposer = computed(() => isAdmin.value || isPartenaire.value)
 
 const tabs = [
   { label: 'Tous', value: 'tous' },
@@ -320,9 +333,10 @@ const validerPlaces = async (r) => {
     <div class="max-w-5xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
       <h1 class="text-h2 font-bold text-ahmi-text-brand mb-6">Mon compte</h1>
 
-      <!-- Actions -->
-      <div class="flex flex-wrap justify-center gap-4 mb-6">
+      
+      <!--Actions Visible uniquement pour admin/partenaire -->
         <BaseButton
+          v-if="peutProposer"
           variant="primary"
           size="lg"
           rounded

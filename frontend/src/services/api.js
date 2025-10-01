@@ -15,7 +15,7 @@ const api = axios.create({
 
 // ---------- Request interceptor : injecter le token ----------
 api.interceptors.request.use((config) => {
-  const t = localStorage.getItem('token')
+  const t = localStorage.getItem('token') || localStorage.getItem('auth_token') // fallback éventuel
   if (t) config.headers.Authorization = `Bearer ${t}`
   return config
 })
@@ -30,6 +30,7 @@ api.interceptors.response.use(
     if (status === 401) {
       // session expirée ou token invalide
       localStorage.removeItem('token')
+      localStorage.removeItem('auth_token')
       // éviter de garder un vieux header en mémoire
       delete api.defaults.headers.common.Authorization
 

@@ -1,3 +1,4 @@
+<!-- src/components/base/BaseConfirmDialog.vue -->
 <template>
   <div
     v-if="visible"
