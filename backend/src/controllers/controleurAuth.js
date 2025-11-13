@@ -25,7 +25,7 @@ class ControleurAuth {
       res.cookie("tokenA", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
+        sameSite: "none",
         expires: new Date(Date.now() + 3600 * 1000),
       });
 
@@ -56,7 +56,7 @@ class ControleurAuth {
       res.cookie("tokenA", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
+        sameSite: "none",
         expires: new Date(Date.now() + 36000 * 1000), // 10 h
       });
 
@@ -108,7 +108,7 @@ class ControleurAuth {
       res.clearCookie("tokenA", {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
+        sameSite: "none",
       });
       res.status(200).json({ message: "Déconnexion réussie" });
     } catch (err) {

@@ -115,38 +115,32 @@ onMounted(() => {
 
 async function handleLogin() {
   banner.value = { type: 'info', message: '' } // reset local banner
-  try {
-    await auth.connexion({ email: email.value, motDePasse: password.value })
 
-    if (!auth.erreur) {
-      toast.success('Connexion réussie !')
+  // Appelle le store d'auth
+  const ok = await auth.connexion({
+    email: email.value,
+    motDePasse: password.value,
+  })
 
-      const q = route.query.redirect
-      const redirect = typeof q === 'string' && q.startsWith('/') ? q : '/account'
-
-      if (route.path === '/connexion' && redirect === '/connexion') {
-        return router.replace('/account')
-      }
-      return router.replace(redirect)
-    }
-  } catch (error) {
-    const status = error?.response?.status
-    const msg = error?.response?.data?.message || 'Erreur de connexion'
-
-    if (status === 403) {
-      // Compte inactif : l’API a déjà renvoyé l’e-mail → message rassurant
-      banner.value = {
-        type: 'info',
-        message:
-          'Votre compte n’est pas encore activé. Nous venons de vous renvoyer un e-mail d’activation.',
-      }
-      toast.info(msg)
-      return
-    }
-
-    // Cas générique (401, etc.)
-    toast.error(msg)
+  // Si le store a détecté une erreur (identifiants, etc.)
+  if (!ok) {
+    // on affiche l'erreur globale renvoyée par l'API
+    toast.error(auth.erreur || 'Erreur de connexion')
+    return
   }
+
+  // Ici la connexion est OK (200, token + utilisateur en store)
+  toast.success('Connexion réussie !')
+
+  // Gestion des query ?redirect=/...
+  const q = route.query.redirect
+  let redirect = typeof q === 'string' && q.startsWith('/') ? q : '/account'
+
+  if (redirect === '/connexion') {
+    redirect = '/account'
+  }
+
+  return router.replace(redirect)
 }
 </script>
 

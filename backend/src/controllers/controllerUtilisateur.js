@@ -74,8 +74,8 @@ class ControleurUtilisateur {
         // Envoyer le token dans un cookie:("tokenA" cest le nom de cookie)
         res.cookie("tokenA", token, {
           httpOnly: true,
-          secure: process.env.NODE_ENV === "production", // Cookie sécurisé uniquement en production
-          sameSite: "strict",
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "none",
           expires: new Date(Date.now() + 36000 * 1000),
         });
         res.status(200).json(utilisateur);

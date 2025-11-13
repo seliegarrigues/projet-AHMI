@@ -22,21 +22,31 @@ export const useAuthStore = defineStore('auth', () => {
   const connexion = async (identifiants) => {
     chargement.value = true
     erreur.value = null
+    erreurChamp.value = null
+
     try {
       const reponse = await connexionAPI(identifiants)
 
+      // Token JWT en JSON
       jeton.value = reponse.data.token
       api.defaults.headers.common.Authorization = `Bearer ${jeton.value}`
 
+      // Utilisateur connecté
       utilisateur.value = reponse.data.utilisateur
+
+      // On met aussi à jour le store utilisateur global
       const utilisateurStore = useUtilisateurStore()
       utilisateurStore.setUtilisateur(utilisateur.value)
 
+      // Persistance du token (pour rechargement)
       localStorage.setItem('token', jeton.value)
+
+      return true // succès
     } catch (err) {
       const champ = err.response?.data?.champ || null
       erreurChamp.value = champ
       erreur.value = err.response?.data?.message || 'Erreur de connexion'
+      return false //  échec
     } finally {
       chargement.value = false
     }
@@ -113,6 +123,7 @@ export const useAuthStore = defineStore('auth', () => {
     utilisateur,
     chargement,
     erreur,
+    erreurChamp,
     inscrire,
     connexion,
     deconnexion,

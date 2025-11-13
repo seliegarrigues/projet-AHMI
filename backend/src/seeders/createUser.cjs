@@ -22,13 +22,13 @@ async function createUser(nom, email, motDePasse, role) {
     const utilisateur = new Utilisateur({
       nom,
       email,
-      password: hash, // Assure-toi que le modèle utilise bien "password"
-      role, // Assure-toi que "role" est bien un champ dans ton modèle
+      motDePasse: hash,
+      role,
       consentementCGU: true,
     });
 
     await utilisateur.save();
-    console.log(`Utilisateur ${role} créé : ${email}`);
+    console.info(`Utilisateur ${role} créé et activé : ${email}`);
   } catch (e) {
     console.error(` Erreur lors de la création de ${email} :`, e.message);
   }

@@ -10,7 +10,7 @@ const connectDB = async () => {
         /\/\/([^:]+):([^@]+)@/,
         "//$1:***@"
       );
-      console.log("Tentative de connexion MongoDB:", masked);
+      console.info("Tentative de connexion MongoDB:", masked);
     }
     await mongoose.connect(process.env.MONGODB_URI);
     console.log("  Connecté à MongoDB");
