@@ -17,7 +17,7 @@ export const motDePasseOublie = (data) => api.post('/auth/mot-de-passe-oublie', 
 
 // ➤ Mot de passe oublié
 export const demanderReinitialisationMotDePasse = (email) => {
-  console.log('POST /auth/mot-de-passe-oublie payload =', { email })
+  console.info('POST /auth/mot-de-passe-oublie payload =', { email })
   return api.post('/auth/mot-de-passe-oublie', { email })
 }
 

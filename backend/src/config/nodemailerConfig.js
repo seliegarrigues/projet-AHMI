@@ -36,7 +36,7 @@ if (NODE_ENV !== "test") {
   }
   transporter.verify((err) => {
     if (err) console.error("SMTP verify error:", err);
-    else console.log("SMTP ready");
+    else console.info("SMTP ready");
   });
 }
 
@@ -77,9 +77,9 @@ export async function envoyerEmailActivation(to, code) {
   const info = await sendMail({ to, subject, html, text });
 
   if (NODE_ENV !== "production") {
-    console.log("🔗 Lien d’activation FRONT :", urlFront);
-    console.log("🔗 Lien d’activation API   :", urlApi);
-    console.log("Email envoyé (info):", info);
+    console.info("🔗 Lien d’activation FRONT :", urlFront);
+    console.info("🔗 Lien d’activation API   :", urlApi);
+    console.info("Email envoyé (info):", info);
   }
   return info;
 }

@@ -148,7 +148,7 @@ onMounted(async () => {
   }
 })
 //watch(evenement, (val) => {
-// console.log('🔍 Catégories dans EventDetails.vue :', val?.categories)
+// console.info('🔍 Catégories dans EventDetails.vue :', val?.categories)
 //})
 
 const formatDate = (d) => {

@@ -17,7 +17,7 @@ export default {
     // Composant pour afficher les informations du profil utilisateur.
 
     greet() {
-      console.log(this.message)
+      console.info(this.message)
     },
   },
 }

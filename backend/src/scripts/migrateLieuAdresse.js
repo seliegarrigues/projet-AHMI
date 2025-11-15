@@ -9,13 +9,13 @@ const uri = process.env.MONGODB_URI || "mongodb://localhost:27017/ahmi";
 async function migrateLieuAdresse() {
   try {
     await mongoose.connect(uri);
-    console.log(" Connecté à MongoDB");
+    console.info(" Connecté à MongoDB");
 
     const eventsToUpdate = await EventModel.find({
       "lieu.adresse": { $exists: true, $ne: null },
     });
 
-    console.log(`🔍 Événements à migrer : ${eventsToUpdate.length}`);
+    console.info(`🔍 Événements à migrer : ${eventsToUpdate.length}`);
 
     for (const event of eventsToUpdate) {
       const adresseStr = event.lieu?.adresse;
@@ -45,14 +45,14 @@ async function migrateLieuAdresse() {
       };
 
       await event.save();
-      console.log(` Événement mis à jour : ${event._id}`);
+      console.info(` Événement mis à jour : ${event._id}`);
       await EventModel.updateOne(
         { _id: event._id },
         { $unset: { "lieu.adresse": "" } }
       );
     }
 
-    console.log(" Migration terminée !");
+    console.info(" Migration terminée !");
   } catch (err) {
     console.error(" Erreur pendant la migration :", err);
   } finally {

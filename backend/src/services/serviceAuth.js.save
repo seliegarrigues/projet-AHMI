@@ -28,7 +28,7 @@ class ServiceAuth {
       utilisateurData.motDePasse = await argon2.hash(
         utilisateurData.motDePasse
       );
-      console.log("mot de passe hachee:", utilisateurData.motDePasse);
+      console.info("mot de passe hachee:", utilisateurData.motDePasse);
 =======
 
       utilisateurData.motDePasse = await argon2.hash(
@@ -63,7 +63,7 @@ class ServiceAuth {
       const token = jwt.sign({ id: utilisateur._id }, process.env.JWT_SECRET, {
         expiresIn: "1h",
       });
-      /* console.log("Token généré :", token); */
+      /* console.info("Token généré :", token); */
 =======
 
       const token = jwt.sign({ id: utilisateur._id }, process.env.JWT_SECRET, {

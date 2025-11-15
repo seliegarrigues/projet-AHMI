@@ -134,7 +134,7 @@ const props = defineProps({
 })
 
 const evenement = props.evenement
-console.log('Événement reçu :', evenement)
+console.info('Événement reçu :', evenement)
 const authStore = useAuthStore()
 const utilisateur = computed(() => authStore.utilisateur)
 const toast = useToast()

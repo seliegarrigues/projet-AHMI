@@ -15,7 +15,7 @@ async function createUser(nom, email, motDePasse, role) {
 
     const existing = await Utilisateur.findOne({ email });
     if (existing) {
-      console.log(`ℹ️ Utilisateur déjà existant : ${email}`);
+      console.info(`ℹ️ Utilisateur déjà existant : ${email}`);
       return;
     }
 

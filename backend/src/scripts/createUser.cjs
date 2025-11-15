@@ -11,7 +11,7 @@ dotenv.config();
 const run = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI);
-    console.log(" Connecté à MongoDB");
+    console.info(" Connecté à MongoDB");
 
     const hashedPassword = await argon2.hash("Test1234!");
 
@@ -34,7 +34,7 @@ const run = async () => {
     });
 
     await user.save();
-    console.log(" Utilisateur de test créé avec succès");
+    console.info(" Utilisateur de test créé avec succès");
   } catch (error) {
     console.error(" Erreur :", error.message);
   } finally {

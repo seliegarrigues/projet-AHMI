@@ -9,11 +9,11 @@ const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/ahmi";
 async function removeAdresseFromLieu() {
   try {
     await mongoose.connect(MONGODB_URI);
-    console.log("✅ Connecté à MongoDB");
+    console.info("✅ Connecté à MongoDB");
 
     // Filtrer les événements avec lieu.adresse
     const events = await Evenement.find({ "lieu.adresse": { $exists: true } });
-    console.log(`🔍 Événements à nettoyer : ${events.length}`);
+    console.info(`🔍 Événements à nettoyer : ${events.length}`);
 
     const ids = events.map((e) => e._id);
 
@@ -23,11 +23,11 @@ async function removeAdresseFromLieu() {
         { $unset: { "lieu.adresse": "" } }
       );
 
-      console.log(
+      console.info(
         `✅ Adresse supprimée pour ${result?.modifiedCount || 0} événement(s).`
       );
     } else {
-      console.log("ℹ️ Aucun événement à mettre à jour.");
+      console.info("ℹ️ Aucun événement à mettre à jour.");
     }
 
     mongoose.connection.close();

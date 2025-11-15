@@ -74,8 +74,8 @@ const placesToUpdate = reactive({})
 let controller
 
 onMounted(async () => {
-  console.log('[AccountView] utilisateur =', utilisateur.value)
-  console.log('[AccountView] roleActif =', roleActif.value)
+  console.info('[AccountView] utilisateur =', utilisateur.value)
+  console.info('[AccountView] roleActif =', roleActif.value)
 
   // 1) Garde-fou
   const hasToken = !!localStorage.getItem('token') || localStorage.getItem('auth_token')

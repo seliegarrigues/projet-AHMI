@@ -10,7 +10,7 @@ class ControleurUtilisateur {
   }
   //comment s'inscrire:
   async inscrire(req, res) {
-    /*  console.log(req.body.nom);
+    /*  console.info(req.body.nom);
     if (!req.body.nom || !req.body.email || !req.body.motDePasse) {
       res.status(400).json(`erreur ,l'un des champ est vide`);
     } else { */
@@ -26,7 +26,7 @@ class ControleurUtilisateur {
           characters[Math.floor(Math.random() * characters.length)];
       }
 
-      console.log(activationCode);
+      console.info(activationCode);
 
       const dataUtilisateur = {
         nom: req.body.nom,
@@ -99,7 +99,7 @@ class ControleurUtilisateur {
   };
 
   mettreAJourProfil = async (req, res) => {
-    console.log("Reçu PUT /profil");
+    console.info("Reçu PUT /profil");
     ["role", "roles", "isActif", "activationCode"].forEach(
       (k) => delete req.body[k]
     );
@@ -115,7 +115,7 @@ class ControleurUtilisateur {
         req.body
       );
       if (utilisateur?.motDePasse) delete utilisateur.motDePasse;
-      console.log("Données reçues :", req.body);
+      console.info("Données reçues :", req.body);
       res.status(200).json(utilisateur);
     } catch (err) {
       res.status(400).json({ message: err.message });

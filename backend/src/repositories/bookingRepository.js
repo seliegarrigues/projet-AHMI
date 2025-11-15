@@ -6,7 +6,7 @@ class BookingRepository {
   // Créer une réservation
   async createBooking(bookingData) {
     try {
-      console.log("Données reçues :", bookingData);
+      console.info("Données reçues :", bookingData);
       const reservation = new Reservation(bookingData);
       return await reservation.save();
     } catch (err) {
@@ -88,7 +88,7 @@ class BookingRepository {
 
   // Vérifier si un utilisateur a déjà réservé pour un événement
   async findBookingByUserAndEvent(userId, eventId) {
-    console.log(userId, eventId);
+    console.info(userId, eventId);
 
     try {
       return await Reservation.findOne({

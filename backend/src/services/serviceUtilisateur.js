@@ -70,7 +70,7 @@ class ServiceUtilisateur {
       const token = jwt.sign({ id: utilisateur._id }, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_EXPIRES_IN || "1d",
       });
-      /* console.log("Token généré :", token); */
+      /* console.info("Token généré :", token); */
       const utilisateurSafe = utilisateur?.toObject
         ? utilisateur.toObject()
         : { ...utilisateur };

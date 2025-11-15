@@ -112,4 +112,4 @@ export const updateEventSchema = Joi.object({
     email: Joi.string().email(),
   }),
 });
-console.log("Schémas Joi chargés correctement");
+console.info("Schémas Joi chargés correctement");

@@ -98,7 +98,7 @@ const formatDate = (d) => {
 }
 
 const validerReservation = async () => {
-  console.log('DATA ENVOYÉE POUR RÉSERVATION:', {
+  console.info('DATA ENVOYÉE POUR RÉSERVATION:', {
     evenement: evenement.value._id,
     nombrePlaces: places.value,
   })
@@ -107,9 +107,9 @@ const validerReservation = async () => {
     toast.error('Événement ou nombre de places invalide.')
     return
   }
-  console.log('typeof evenement.value._id =', typeof evenement.value._id)
-  console.log('evenement.value._id =', evenement.value._id)
-  console.log('longueur =', evenement.value._id?.length)
+  console.info('typeof evenement.value._id =', typeof evenement.value._id)
+  console.info('evenement.value._id =', evenement.value._id)
+  console.info('longueur =', evenement.value._id?.length)
 
   sending.value = true
   try {

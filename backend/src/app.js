@@ -132,7 +132,7 @@ console.info(" Avant routes event");
 app.use("/api/events", eventRoutes);
 
 app.use("/api/reservations", auth, bookingRoutes);
-console.log(" reservations OK");
+console.info(" reservations OK");
 
 console.info(" Avant routes categorie");
 app.use("/api/categories", categorieRoutes);

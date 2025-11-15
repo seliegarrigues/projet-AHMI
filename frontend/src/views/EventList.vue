@@ -74,7 +74,7 @@ const isDev = true
 const evenements = computed(() =>
   isDev ? store.allEvenements : store.allEvenements.filter((e) => e.statut === 'approuve')
 )
-console.log('Événements (bruts) :', evenements.value)
+console.info('Événements (bruts) :', evenements.value)
 // Récupération initiale
 onMounted(async () => {
   await store.fetchEvenements()
@@ -84,7 +84,7 @@ onMounted(async () => {
 })
 
 const evenementsApprouves = computed(() => store.evenementsApprouvesValides)
-console.log('Événements approuvés :', evenementsApprouves.value)
+console.info('Événements approuvés :', evenementsApprouves.value)
 // Liste finale filtrée et triée
 
 const filteredEvenements = computed(() => {

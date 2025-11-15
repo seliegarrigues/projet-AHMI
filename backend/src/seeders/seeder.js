@@ -56,14 +56,14 @@ const seed = async () => {
     // 💡 Création des rôles si non existants
     await createRoleIfNotExists("admin");
     await createRoleIfNotExists("partenaire");
-    console.log("✅ Rôles injectés avec succès");
+    console.info("✅ Rôles injectés avec succès");
 
     const user = await createFakeUser();
     fakeEvents[0].createur = user._id;
 
     await Evenement.deleteMany();
     const result = await Evenement.insertMany(fakeEvents);
-    console.log(`${result.length} événements ont été insérés.`);
+    console.info(`${result.length} événements ont été insérés.`);
     process.exit();
   } catch (err) {
     console.error("Erreur insertion :", err.message);

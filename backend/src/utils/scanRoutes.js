@@ -16,7 +16,7 @@ fs.readdir(baseDir, (err, files) => {
     while ((match = regex.exec(content)) !== null) {
       const pathValue = match[2];
       if (/\/:[^a-zA-Z]/.test(pathValue) || /\/:$/.test(pathValue)) {
-        console.log(`❌ Mauvais path dans ${file} : "${pathValue}"`);
+        console.info(`Mauvais path dans ${file} : "${pathValue}"`);
       }
     }
   });
