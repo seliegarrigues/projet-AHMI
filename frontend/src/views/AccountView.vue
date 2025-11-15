@@ -5,7 +5,9 @@ import { onBeforeRouteLeave, RouterLink } from 'vue-router'
 import { format } from 'date-fns'
 import fr from 'date-fns/locale/fr'
 import { useToast } from 'vue-toastification'
-import useAuth from '@/hooks/utiliserAuth.js'
+import { useAuthStore } from '@/stores/auth'
+import { storeToRefs } from 'pinia'
+
 import MainLayout from '@/layout/MainLayout.vue'
 import BaseButton from '@/components/base/BaseButton.vue'
 import BaseConfirmDialog from '@/components/base/BaseConfirmDialog.vue'
@@ -14,8 +16,14 @@ import { getAllEvents, deleteEvent, updateEventStatus, getMyEvents } from '@/ser
 import { getMyBookings, updateBooking, deleteBooking } from '@/services/bookingService'
 import { useEvenementsStore } from '@/stores/evenements'
 
-const { utilisateur } = useAuth()
+const authStore = useAuthStore()
+const { utilisateur } = storeToRefs(authStore)
+
+// utilisateur est s directement un ref de l'objet utilisateur
+// ex : utilisateur.value = { _id, nom, email, role, ... }
+
 const utilisateurId = computed(() => utilisateur.value?.id || utilisateur.value?._id || null)
+
 const idsEgales = (a, b) => a != null && b != null && String(a) === String(b)
 const estCreateur = (e) => {
   const uid = utilisateurId.value
@@ -66,6 +74,9 @@ const placesToUpdate = reactive({})
 let controller
 
 onMounted(async () => {
+  console.log('[AccountView] utilisateur =', utilisateur.value)
+  console.log('[AccountView] roleActif =', roleActif.value)
+
   // 1) Garde-fou
   const hasToken = !!localStorage.getItem('token') || localStorage.getItem('auth_token')
   if (!hasToken) {

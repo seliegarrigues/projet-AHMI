@@ -39,6 +39,8 @@ export const useAuthStore = defineStore('auth', () => {
       utilisateurStore.setUtilisateur(utilisateur.value)
 
       // Persistance du token (pour rechargement)
+      localStorage.setItem('auth_user', JSON.stringify(utilisateur.value))
+      localStorage.setItem('auth_token', jeton.value)
       localStorage.setItem('token', jeton.value)
 
       return true // succès
@@ -78,6 +80,8 @@ export const useAuthStore = defineStore('auth', () => {
     jeton.value = null
     utilisateur.value = null
     localStorage.removeItem('token')
+    localStorage.removeItem('auth_token') //
+    localStorage.removeItem('auth_user')
 
     const utilisateurStore = useUtilisateurStore()
     utilisateurStore.setUtilisateur(null)
