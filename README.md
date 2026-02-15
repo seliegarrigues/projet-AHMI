@@ -1,10 +1,8 @@
 # AHMI – Plateforme Solidaire
 
-[![CI](https://github.com/Fatah872218/projet-AHMI/actions/workflows/ci.yml/badge.svg)](https://github.com/Fatah872218/projet-AHMI/actions/workflows/ci.yml)
+[![CI](https://github.com/seliegarrigues/projet-AHMI/actions/workflows/ci.yml/badge.svg)](https://github.com/seliegarrigues/projet-AHMI/actions/workflows/ci.yml)
 
-> **Pitch en une phrase :** Application web et mobile qui centralise toutes les actions solidaires de l’association AHMI — gestion d’événements, boutique de dons revalorisés et mise en relation  — afin d’améliorer le quotidien des citoyens tout en soutenant l’économie locale.
-
----
+> **Pitch en une phrase :** Application web et mobile qui centralise toutes les actions solidaires de l’association AHMI — gestion d’événements, boutique de dons revalorisés et mise en relation — afin d’améliorer le quotidien des citoyens tout en soutenant l’économie locale.
 
 ## Sommaire
 
@@ -50,13 +48,13 @@ Le stage de 11 semaines (25 mars → 30 mai 2025) a donc eu pour obj
 - [x] **Authentification JWT** et gestion fine des rôles (Admin, Partenaire, Utilisateur)
 - [x] **Catalogue d’événements CRUD** avec workflow de modération
 - [x] **Réservation en ligne** et suivi en temps réel des places restantes
-- [x] **Paiements / dons** – module prêt pour intégration Stripe
-- [x] **Boutique solidaire** de produits de seconde main
+- [ ] **Paiements / dons** – module prêt pour intégration Stripe
+- [ ] **Boutique solidaire** de produits de seconde main
 - [x] **Tableau de bord personnel** (historique des réservations & adhésions)
 - [x] **Soumission d’événement** par les partenaires, validation admin
 - [x] **API REST** (Express + MongoDB) validée par **Joi**
-- [x] **Front Vue 3 + Vite + Tailwind**, 100 % responsive & conforme **WCAG AA**
-- [x] **Pipeline GitHub Actions** & tests (**Vitest / Jest**)
+- [x] **Front Vue 3 + Vite + Tailwind**, 100 % responsive & objectif WCAG AA / bonnes pratiques accessibilité
+- [ ] Pipeline GitHub Actions & tests (à finaliser)
 
 ## Stack technique
 
@@ -64,20 +62,22 @@ Le stage de 11 semaines (25 mars → 30 mai 2025) a donc eu pour obj
 | --------------------------- | -------------------- | ------------------ | ------------------------- |
 | Vue 3 + Vite + Tailwind CSS | Node.js 18 + Express | MongoDB + Mongoose | Vitest / Jest / Supertest |
 
-_A ajuster._
+➡️ Détails back-end (architecture, sécurité, variables .env, endpoints) : voir [backend/README.md](./backend/README.md)
 
 ## Prérequis
 
 - Node >= 18
 - npm >= 10 / pnpm / yarn
 - MongoDB en local **ou** URI Atlas
-- … (ajouter ce qu’il faut si nécessaire)
+- …
 
 ## Installation
 
 ```bash
 # Clone du repo
-$ git clone https://github.com/<utilisateur>/projet-AHMI.git
+$ git clone https://github.com/seliegarrigues/projet-AHMI.git
+
+
 $ cd projet-AHMI
 
 # Installation des dépendances front‑end
@@ -99,14 +99,14 @@ $ cd frontend
 $ npm run dev
 ```
 
-_L’API tourne par défaut sur **\*\***`http://localhost:5000`**\*\*** et le front sur **\*\***`http://localhost:5173`**\*\***._
+L’API tourne par défaut sur http://localhost:5000 et le front sur http://localhost:5173.
 
 ## Scripts npm utiles
 
 | Dossier  | Script          | Description                           |
 | -------- | --------------- | ------------------------------------- |
 | backend  | `npm run dev`   | Démarre l’API en mode watch (nodemon) |
-| backend  | `npm test`      | Lance les tests Jest                  |
+| backend  | `npm test`      | Tests à venir (placeholder)           |
 | frontend | `npm run dev`   | Dev server Vite                       |
 | frontend | `npm run build` | Build production                      |
 | frontend | `npm run test`  | Tests Vitest                          |
@@ -145,25 +145,23 @@ projet-AHMI/
     └── …
 ```
 
-_A mettre à jour si l’arborescence diffère._
-
 ## Tests
 
-_couverture actuelle et comment lancer les tests. Ex.: « pas te test lancé à ce jour excepté postman »._
+- Front : tests Vitest .
+- Back : tests automatisés à venir ; pour l’instant, la validation fonctionnelle est réalisée via Postman + Swagger (/docs).
 
 ## Déploiement
 
-- Front : Vercel / Netlify / Render (préciser la commande)
+- Front : Vercel / Netlify / Render
 - Back : Render / Railway / Heroku
 - Environnement : variables, secrets, build hooks
 
 ## Roadmap
 
 1. ✅ Documentation de base
-2. ☐ Pipeline CI GitHub Actions
+2. ✅ Pipeline CI GitHub Actions (à enrichir : tests, lint, etc.)
 3. ☐ Badge couverture Codecov
 4. ☐ Internationalisation (i18n)
-5. ☐ Dark mode
 
 ## Contribuer
 
@@ -179,6 +177,6 @@ Ce projet est sous licence **MIT** — voir le fichier [LICENSE](./LICENSE) pour
 
 ## Contact
 
-\*Fatah872218 — \*[_email@example.com_](mailto:email@example.com)
+\*seliegarrigues — \*[_eliseg64@icloud.com_](mailto:eliseg64@icloud.com)
 
-LinkedIn : [https://www.linkedin.com/in/username](https://www.linkedin.com/in/username) GitHub : [https://github.com/Fatah872218](https://github.com/Fatah872218)
+LinkedIn : [https://www.linkedin.com/in/elisegarrigues](https://www.linkedin.com/in/elisegarrigues) GitHub : [https://github.com/seliegarrigues](https://github.com/seliegarrigues)
