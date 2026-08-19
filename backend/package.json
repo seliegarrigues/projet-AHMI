@@ -6,7 +6,7 @@
   "type": "module",
   "packageManager": "npm@10.8.2",
   "engines": {
-    "node": ">=18 <21"
+    "node": "24.x"
   },
   "scripts": {
     "test": "node -e \"process.exit(0)\"",
