@@ -17,7 +17,6 @@ import {
   authLimiter,
   geocodeLimiter,
 } from "./middlewares/rateLimiter.js";
-import corsStrict from "./middlewares/corsStrict.js";
 //import { sanitizeMongo, preventHpp } from "./middlewares/sanitize.js";
 import auth from "./middlewares/middlewareAuth.js";
 import checkRole from "./middlewares/middlewareCheckRole.js";
