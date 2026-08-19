@@ -1,6 +1,9 @@
 {
   "name": "projet-ahmi",
   "private": true,
+  "engines": {
+    "node": "24.x"
+  },
   "scripts": {
     "lint:front": "npm --prefix frontend run lint",
     "lint:back": "npm --prefix backend run lint",
